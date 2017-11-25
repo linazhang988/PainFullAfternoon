@@ -14,7 +14,7 @@ public class ItemParserTest {
 
     private String rawSingleItemIrregularSeperatorSample = "naMe:MiLK;price:3.23;type:Food^expiration:1/11/2016##";
 
-    private String rawBrokenSingleItem =    "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##";
+    private String rawBrokenSingleItem =    "naMe:Milk;price:3.23;type:;expiration:1/25/2016##";
 
     private String rawMultipleItems = "naMe:Milk;price:3.23;type:Food;expiration:1/25/2016##"
                                       +"naME:BreaD;price:1.23;type:Food;expiration:1/02/2016##"
@@ -32,6 +32,9 @@ public class ItemParserTest {
         ArrayList<String> items = itemParser.parseRawDataIntoStringArray(rawMultipleItems);
         Integer actualArraySize = items.size();
         assertEquals(expectedArraySize, actualArraySize);
+        for(String each: items){
+            System.out.println(each);
+        }
     }
 
     @Test
@@ -59,4 +62,30 @@ public class ItemParserTest {
         Integer actual = itemParser.findKeyValuePairsInRawItemData(rawSingleItemIrregularSeperatorSample).size();
         assertEquals(expected, actual);
     }
+    @Test
+    public void testPatternMatchName(){
+        boolean actual = itemParser.patternMatchName(rawSingleItem);
+        Assert.assertEquals(true,actual);
+    }
+    @Test
+    public void testPatternMatchPrice(){
+        boolean actual = itemParser.patternMatchPrice(rawSingleItem);
+        Assert.assertEquals(true,actual);
+    }
+    @Test
+    public void testPatternMatchType(){
+        boolean actual = itemParser.patternMatchType(rawSingleItem);
+        Assert.assertEquals(true,actual);
+    }
+    @Test
+    public void testPatternMatchExpiration(){
+        boolean actual = itemParser.patternMatchExpiration(rawSingleItem);
+        Assert.assertEquals(true,actual);
+    }
+//    @Test
+//    public void testNameValue(){
+//        String expected = "Milk";
+//        String actual = itemParser.nameValue(rawSingleItem);
+//        Assert.assertEquals(expected,actual);
+//    }
 }
